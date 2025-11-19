@@ -40,14 +40,36 @@ You can easily add or remove plugins by modifying `plugins.txt`.
 
 ## 🛠 Usage
 
-Build locally:
+### Build locally
 
 ```bash
 docker build -t <your-tag> .
 ```
 
-Run:
+### Run with Docker
 
 ```bash
 docker run -p 8080:8080 -p 50000:50000 <your-tag>
 ```
+
+### Run with Docker Compose (example)
+
+```yaml
+services:
+  jenkins:
+    image: pjmeca/jenkins
+    privileged: true
+    user: root
+    container_name: jenkins
+    restart: unless-stopped
+    ports:
+      - 8080:8080       # Change this (optional)
+      - 50000:50000     # Change this (optional)
+    volumes:
+      - /opt/docker:/opt/docker:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+      - /store/your/jenkins/home:/var/jenkins_home # Change this
+```
+
+> This compose example runs Jenkins as root with Docker access, mapping the Docker socket and binaries for building images inside pipelines. Ports are mapped to your host, and persistent storage is configured under `/store/your/jenkins/home`.
