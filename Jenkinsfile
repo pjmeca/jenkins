@@ -24,8 +24,9 @@ pipeline {
                     if (fileExists(lastDigestFile)) {
                         def previous = readFile(lastDigestFile).trim()
                         if (previous == digest) {
-                            currentBuild.result = 'NOT_BUILT'
-                            error('Jenkins is up to date.')
+                            echo "Jenkins base image is already up-to-date. Skipping build."
+                            currentBuild.result = 'SUCCESS'
+                            return
                         }
                     }
 
