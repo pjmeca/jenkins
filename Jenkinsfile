@@ -37,7 +37,7 @@ pipeline {
         stage('Build image') {
             steps {
                 script {
-                    def ts = sh(
+                    env.TS = sh(
                         script: "date +%Y%m%d-%H%M%S",
                         returnStdout: true
                     ).trim()
@@ -56,7 +56,7 @@ pipeline {
                                                   passwordVariable: 'DOCKER_PASS')]) {
                     sh """
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                        docker push ${CUSTOM_IMAGE}:${ts}
+                        docker push ${CUSTOM_IMAGE}:${env.TS}
                         docker push ${CUSTOM_IMAGE}:latest
                     """
                 }
