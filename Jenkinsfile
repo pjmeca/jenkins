@@ -20,13 +20,12 @@ pipeline {
                     ).trim()
 
                     def lastDigestFile = '.last_base_digest'
-
+                    env.BUILD_NEEDED = 'true'
                     if (fileExists(lastDigestFile)) {
                         def previous = readFile(lastDigestFile).trim()
                         if (previous == digest) {
-                            echo "Jenkins base image is already up-to-date. Skipping build."
-                            currentBuild.result = 'SUCCESS'
-                            return
+                            echo "Jenkins base image is up to date. Skipping build."
+                            env.BUILD_NEEDED = 'false'
                         }
                     }
 
@@ -36,6 +35,7 @@ pipeline {
         }
 
         stage('Build image') {
+            when { expression { env.BUILD_NEEDED == 'true' } }
             steps {
                 script {
                     env.TS = sh(
@@ -51,6 +51,7 @@ pipeline {
         }
 
         stage('Push image') {
+            when { expression { env.BUILD_NEEDED == 'true' } }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials',
                                                   usernameVariable: 'DOCKER_USER',
