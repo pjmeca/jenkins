@@ -1,4 +1,7 @@
-# Jenkins Image with Docker CLI + Preinstalled Plugins
+# pjmeca/jenkins: A Jenkins Image with Docker CLI + Preinstalled Plugins
+
+[![GitHub Repo stars](https://img.shields.io/github/stars/pjmeca/jenkins?style=flat&logo=github&label=Star%20this%20repo!)](https://github.com/pjmeca/jenkins)
+[![Docker Image Version (tag)](https://img.shields.io/docker/v/pjmeca/jenkins/latest?logo=docker)](https://hub.docker.com/r/pjmeca/jenkins)
 
 A custom Jenkins image based on `jenkins/jenkins:latest` that includes:
 
